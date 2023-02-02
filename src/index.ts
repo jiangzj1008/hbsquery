@@ -1,9 +1,27 @@
-import { preprocess as parse, traverse } from 'lehbs-parser';
+import { preprocess as parse, builders, traverse, print } from 'lehbs-parser';
 
-export function fn() {
-  const code = '<div></div>';
+export interface Iapi {
+  html: () => string;
+}
+
+// $('div ')
+export function load(code: string) {
   const ast = parse(code);
-  console.log(ast);
-  const a = [1, 2, 3];
-  return 1;
+
+  function fn(selector: string) {
+    traverse(ast, {
+      ElementNode: {
+        enter: (node) => {
+          const attr = builders.attr('class', builders.text('show'));
+          node.attributes.push(attr);
+        },
+      },
+    });
+  }
+
+  Object.assign(fn, {
+    html: () => print(ast),
+  });
+
+  return fn as unknown as Iapi;
 }

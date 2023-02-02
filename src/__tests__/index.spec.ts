@@ -1,7 +1,10 @@
-import { fn } from '../index';
+import { load } from '../index';
 
-describe('.test', () => {
-  it('desc', () => {
-    expect(fn()).toBe(1);
+describe('basic', () => {
+  it('html function', () => {
+    const code = '<div></div>';
+    const $ = load(code);
+
+    expect($.html()).toBe(code);
   });
 });
