@@ -1,7 +1,9 @@
-console.log(1);
+import { preprocess as parse, traverse } from 'lehbs-parser';
 
-function fn() {
+export function fn() {
+  const code = '<div></div>';
+  const ast = parse(code);
+  console.log(ast);
   const a = [1, 2, 3];
+  return 1;
 }
-
-fn();
