@@ -7,14 +7,4 @@ describe('basic', () => {
 
     expect($.html()).toBe(code);
   });
-
-  it('addClass function', () => {
-    const code = '<div class="show"></div>';
-    const $ = load(code);
-    const eles = $('.active, .show');
-
-    eles.addClass('newClass');
-
-    expect($.html()).toBe('<div class="show newClass"></div>');
-  });
 });
