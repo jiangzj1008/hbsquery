@@ -28,6 +28,7 @@
     "typescript": "*"
   },
   "dependencies": {
+    "css-what": "^6.1.0",
     "lehbs-parser": "^0.0.8"
   }
 }
