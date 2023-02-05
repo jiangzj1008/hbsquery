@@ -92,14 +92,6 @@ export function load(code: string) {
 
     let eles = new Hbsquery<ElementNode>([]);
 
-    eles.addClass('');
-
-    // let eles: IElementsList & ElementNode[] = Object.assign([], {
-    //   removeClass: (cls?: string) => {
-    //     eles.forEach((ele) => {});
-    //   },
-    // });
-
     traverse(ast, {
       ElementNode: {
         enter: (node) => {

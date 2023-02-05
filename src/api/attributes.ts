@@ -17,3 +17,37 @@ export function addClass<R extends Array<ElementNode>>(this: R, value: string) {
 
   return this;
 }
+
+export function removeClass<R extends Array<ElementNode>>(
+  this: R,
+  value?: string,
+) {
+  this.forEach((ele) => {
+    let attrNode = ele.attributes.find((attr) => attr.name === 'class');
+
+    if (!attrNode) {
+      return this;
+    }
+
+    if (!value) {
+      ele.attributes = ele.attributes.filter((attr) => attr.name !== 'class');
+    }
+
+    const removeClsArr = value?.split(/\s+/);
+    if (attrNode.value.type === 'ConcatStatement') {
+      const textNodeArr = attrNode.value.parts.filter(
+        (node) => node.type === 'TextNode',
+      );
+      // todo
+      textNodeArr.forEach((node) => {});
+    } else if (attrNode.value.type === 'TextNode') {
+      const currentClsArr = attrNode.value.chars.split(/\s+/);
+      const newClsArr = currentClsArr.filter(
+        (cls) => !removeClsArr?.includes(cls),
+      );
+      attrNode.value.chars = newClsArr.join(' ');
+    }
+
+    return this;
+  });
+}
