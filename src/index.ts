@@ -1,6 +1,8 @@
-import { preprocess as parse, builders, traverse, print } from 'lehbs-parser';
+import { preprocess as parse, traverse, print } from 'lehbs-parser';
 import * as cssWhat from 'css-what';
 import { ElementNode } from 'lehbs-parser/dist/types/lib/v1/nodes-v1';
+
+import { Hbsquery } from './hbsquery';
 
 export interface IElementsList {
   addClass: (classes: string) => ElementNode[];
@@ -88,27 +90,15 @@ export function load(code: string) {
   function fn(selector: string) {
     const sels = cssWhat.parse(selector);
 
-    let eles: IElementsList & ElementNode[] = Object.assign([], {
-      addClass: (classes: string) => {
-        eles.forEach((ele) => {
-          let attrNode = ele.attributes.find((attr) => attr.name === 'class');
-          if (!attrNode) {
-            attrNode = builders.attr('class', builders.text(''));
-            ele.attributes.push(attrNode);
-          }
-          if (attrNode.value.type === 'ConcatStatement') {
-            attrNode.value.parts.push(builders.text(` ${classes}`));
-          } else if (attrNode.value.type === 'TextNode') {
-            attrNode.value.chars = `${attrNode.value.chars} ${classes}`.trim();
-          }
-        });
+    let eles = new Hbsquery<ElementNode>([]);
 
-        return eles;
-      },
-      removeClass: (cls?: string) => {
-        eles.forEach((ele) => {});
-      },
-    });
+    eles.addClass('');
+
+    // let eles: IElementsList & ElementNode[] = Object.assign([], {
+    //   removeClass: (cls?: string) => {
+    //     eles.forEach((ele) => {});
+    //   },
+    // });
 
     traverse(ast, {
       ElementNode: {
