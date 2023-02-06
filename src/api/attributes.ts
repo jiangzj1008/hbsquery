@@ -14,6 +14,8 @@ export function addClass<R extends Array<ElementNode>>(this: R, value: string) {
     if (attrNode.value.type === 'ConcatStatement') {
       attrNode.value.parts.push(builders.text(` ${value}`));
     } else if (attrNode.value.type === 'TextNode') {
+      const currentClsArr = attrNode.value.chars.split(reg.rspace);
+
       attrNode.value.chars = `${attrNode.value.chars} ${value}`.trim();
     }
   });
@@ -70,6 +72,8 @@ export function removeClass<R extends Array<ElementNode>>(
 }
 
 export function hasClass<R extends Array<ElementNode>>(this: R, value: string) {
+  const classNames = value.split(reg.rspace);
+
   const valid = this.some((ele) => {
     let attrNode = ele.attributes.find((attr) => attr.name === 'class');
     if (!attrNode) {
@@ -81,13 +85,15 @@ export function hasClass<R extends Array<ElementNode>>(this: R, value: string) {
       for (let index = 0; index < charsArr.length; index++) {
         const charsObj = charsArr[index];
         const { chars } = charsObj;
-        if (chars.includes(value)) {
+        const valid = chars.filter((char) => classNames.includes(char));
+        if (valid.length > 0) {
           return true;
         }
       }
     } else if (attrNode.value.type === 'TextNode') {
       const currentClsArr = attrNode.value.chars.split(reg.rspace);
-      return currentClsArr.includes(value);
+      const valid = currentClsArr.filter((cls) => classNames.includes(cls));
+      return valid.length > 0;
     }
 
     return false;

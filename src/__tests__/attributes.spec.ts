@@ -72,9 +72,9 @@ describe('remove class', () => {
     const $ = load(code);
     const eles = $('.active, .show');
 
-    eles.removeClass('show');
+    eles.removeClass('show active');
 
-    expect($.html()).toBe('<div class></div><div class="active"></div>');
+    expect($.html()).toBe('<div class></div><div class></div>');
   });
 
   it('concat statement 1', () => {
@@ -124,7 +124,7 @@ describe('has class', () => {
     const $ = load(code);
     const eles = $('.active, .show');
 
-    const valid = eles.hasClass('show');
+    const valid = eles.hasClass('valid show');
 
     expect(valid).toBe(true);
   });
