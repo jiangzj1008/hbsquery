@@ -6,10 +6,10 @@ describe('add class', () => {
     const $ = load(code);
     const eles = $('.active, .show');
 
-    eles.addClass('newClass');
+    eles.addClass('active show');
 
     expect($.html()).toBe(
-      '<div class="show newClass"></div><div class="active newClass"></div>',
+      '<div class="show active"></div><div class="active show"></div>',
     );
   });
 
@@ -46,13 +46,13 @@ describe('add class', () => {
   });
 
   it('concat statement 3', () => {
-    const code = '<div class="show{{cls}} show"></div>';
+    const code = '<div class="show {{cls}}show"></div>';
     const $ = load(code);
     const eles = $('div.show');
 
-    eles.addClass('newClass');
+    eles.addClass('show newClass');
 
-    expect($.html()).toBe('<div class="show{{cls}} show newClass"></div>');
+    expect($.html()).toBe('<div class="show {{cls}}show newClass"></div>');
   });
 
   it('empty class', () => {
