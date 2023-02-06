@@ -3,12 +3,11 @@ import * as cssWhat from 'css-what';
 import { ElementNode } from 'lehbs-parser/dist/types/lib/v1/nodes-v1';
 
 import { Hbsquery } from './hbsquery';
+import { charsOfConcatTextNode } from './utils';
 
 export interface IElementsList {
   addClass: (classes: string) => ElementNode[];
 }
-
-const spaceReg = /\s+/;
 
 function checkAttribute(node: ElementNode, selector: cssWhat.Selector) {
   if (selector.type !== 'attribute') {
@@ -26,20 +25,13 @@ function checkAttribute(node: ElementNode, selector: cssWhat.Selector) {
   let classes: string[] = [];
 
   if (attrNode.value.type === 'TextNode') {
+    const spaceReg = /\s+/;
     classes = attrNode.value.chars.split(spaceReg);
   } else if (attrNode.value.type === 'ConcatStatement') {
-    const length = attrNode.value.parts.length;
-    attrNode.value.parts.forEach((part, index) => {
-      if (part.type === 'TextNode') {
-        const firstPart = index === 0;
-        const lastPart = index === length - 1;
-        const leadingSpace = /^\s/.test(part.chars);
-        const tailingSpace = /\s$/.test(part.chars);
-        const chars = part.chars.split(spaceReg);
-        !leadingSpace && !firstPart && chars.splice(0, 1);
-        !tailingSpace && !lastPart && chars.splice(chars.length - 1, 1);
-        classes = [...classes, ...chars];
-      }
+    const charsArr = charsOfConcatTextNode(attrNode.value);
+    charsArr.forEach((charsObj) => {
+      const { chars } = charsObj;
+      classes = [...classes, ...chars];
     });
   }
 

@@ -1,5 +1,6 @@
 import { ElementNode } from 'lehbs-parser/dist/types/lib/v1/nodes-v1';
 import { builders } from 'lehbs-parser';
+import { charsOfConcatTextNode } from '../utils';
 
 export function addClass<R extends Array<ElementNode>>(this: R, value: string) {
   this.forEach((ele) => {
@@ -35,11 +36,25 @@ export function removeClass<R extends Array<ElementNode>>(
 
     const removeClsArr = value?.split(/\s+/);
     if (attrNode.value.type === 'ConcatStatement') {
-      const textNodeArr = attrNode.value.parts.filter(
-        (node) => node.type === 'TextNode',
-      );
-      // todo
-      textNodeArr.forEach((node) => {});
+      const charsArr = charsOfConcatTextNode(attrNode.value);
+      const attrValue = attrNode.value;
+      charsArr.forEach((charsObj) => {
+        const { index, chars, leadingChar, tailingChar } = charsObj;
+        const newChars = chars.filter((char) => !removeClsArr?.includes(char));
+        const textNode = attrValue.parts[index];
+        if (textNode.type !== 'TextNode') {
+          throw new Error(`AttrNode index[{${index}}] is not TextNode`);
+        } else {
+          textNode.chars = `${leadingChar} ${newChars.join(
+            ' ',
+          )} ${tailingChar}`;
+          const middleChars = newChars.join(' ');
+          const leadingChars = leadingChar ? `${leadingChar} ` : '';
+          const tailingChars = tailingChar ? ` ${tailingChar}` : '';
+          textNode.chars = leadingChars + middleChars + tailingChars;
+          textNode.chars = textNode.chars.trim();
+        }
+      });
     } else if (attrNode.value.type === 'TextNode') {
       const currentClsArr = attrNode.value.chars.split(/\s+/);
       const newClsArr = currentClsArr.filter(

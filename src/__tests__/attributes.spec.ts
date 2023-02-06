@@ -25,7 +25,7 @@ describe('add class', () => {
     );
   });
 
-  it('concat no hit 1', () => {
+  it('concat statement 1', () => {
     const code = '<div class="show{{cls}}"></div>';
     const $ = load(code);
     const eles = $('.show');
@@ -35,7 +35,7 @@ describe('add class', () => {
     expect($.html()).toBe('<div class="show{{cls}}"></div>');
   });
 
-  it('concat no hit 2', () => {
+  it('concat statement 2', () => {
     const code = '<div class="{{cls}}show"></div>';
     const $ = load(code);
     const eles = $('.show');
@@ -45,7 +45,7 @@ describe('add class', () => {
     expect($.html()).toBe('<div class="{{cls}}show"></div>');
   });
 
-  it('concat hit', () => {
+  it('concat statement 3', () => {
     const code = '<div class="show{{cls}} show"></div>';
     const $ = load(code);
     const eles = $('div.show');
@@ -63,5 +63,47 @@ describe('add class', () => {
     eles.addClass('newClass');
 
     expect($.html()).toBe('<div class="newClass"></div>');
+  });
+});
+
+describe('remove class', () => {
+  it('pure html 1', () => {
+    const code = '<div class="show"></div><div class="active"></div>';
+    const $ = load(code);
+    const eles = $('.active, .show');
+
+    eles.removeClass('show');
+
+    expect($.html()).toBe('<div class></div><div class="active"></div>');
+  });
+
+  it('concat statement 1', () => {
+    const code = '<div class="active valid show{{cls}}valid"></div>';
+    const $ = load(code);
+    const eles = $('.active');
+
+    eles.removeClass('valid');
+
+    expect($.html()).toBe('<div class="active show{{cls}}valid"></div>');
+  });
+
+  it('concat statement 2', () => {
+    const code = '<div class="active valid show{{cls}}valid"></div>';
+    const $ = load(code);
+    const eles = $('.valid');
+
+    eles.removeClass('active valid');
+
+    expect($.html()).toBe('<div class="show{{cls}}valid"></div>');
+  });
+
+  it('concat statement 3', () => {
+    const code = '<div class="show{{cls}} show"></div>';
+    const $ = load(code);
+    const eles = $('div.show');
+
+    eles.removeClass();
+
+    expect($.html()).toBe('<div></div>');
   });
 });

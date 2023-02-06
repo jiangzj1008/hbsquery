@@ -103,6 +103,7 @@
     "src"
   ],
   "exclude": [
+    "src/__tests__",
     "tmp",
     "dist",
     "node_modules"
