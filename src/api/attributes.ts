@@ -2,6 +2,8 @@ import { ElementNode } from 'lehbs-parser/dist/types/lib/v1/nodes-v1';
 import { builders } from 'lehbs-parser';
 import { charsOfConcatTextNode } from '../utils';
 
+import { reg } from '../utils';
+
 export function addClass<R extends Array<ElementNode>>(this: R, value: string) {
   this.forEach((ele) => {
     let attrNode = ele.attributes.find((attr) => attr.name === 'class');
@@ -34,7 +36,7 @@ export function removeClass<R extends Array<ElementNode>>(
       ele.attributes = ele.attributes.filter((attr) => attr.name !== 'class');
     }
 
-    const removeClsArr = value?.split(/\s+/);
+    const removeClsArr = value?.split(reg.rspace);
     if (attrNode.value.type === 'ConcatStatement') {
       const charsArr = charsOfConcatTextNode(attrNode.value);
       const attrValue = attrNode.value;
@@ -56,7 +58,7 @@ export function removeClass<R extends Array<ElementNode>>(
         }
       });
     } else if (attrNode.value.type === 'TextNode') {
-      const currentClsArr = attrNode.value.chars.split(/\s+/);
+      const currentClsArr = attrNode.value.chars.split(reg.rspace);
       const newClsArr = currentClsArr.filter(
         (cls) => !removeClsArr?.includes(cls),
       );
@@ -65,4 +67,31 @@ export function removeClass<R extends Array<ElementNode>>(
 
     return this;
   });
+}
+
+export function hasClass<R extends Array<ElementNode>>(this: R, value: string) {
+  const valid = this.some((ele) => {
+    let attrNode = ele.attributes.find((attr) => attr.name === 'class');
+    if (!attrNode) {
+      return false;
+    }
+
+    if (attrNode.value.type === 'ConcatStatement') {
+      const charsArr = charsOfConcatTextNode(attrNode.value);
+      for (let index = 0; index < charsArr.length; index++) {
+        const charsObj = charsArr[index];
+        const { chars } = charsObj;
+        if (chars.includes(value)) {
+          return true;
+        }
+      }
+    } else if (attrNode.value.type === 'TextNode') {
+      const currentClsArr = attrNode.value.chars.split(reg.rspace);
+      return currentClsArr.includes(value);
+    }
+
+    return false;
+  });
+
+  return valid;
 }

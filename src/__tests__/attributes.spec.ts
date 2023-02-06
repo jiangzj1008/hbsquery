@@ -88,13 +88,13 @@ describe('remove class', () => {
   });
 
   it('concat statement 2', () => {
-    const code = '<div class="active valid show{{cls}}valid"></div>';
+    const code = '<div class="active show{{cls}} valid"></div>';
     const $ = load(code);
     const eles = $('.valid');
 
     eles.removeClass('active valid');
 
-    expect($.html()).toBe('<div class="show{{cls}}valid"></div>');
+    expect($.html()).toBe('<div class="show{{cls}}"></div>');
   });
 
   it('concat statement 3', () => {
@@ -105,5 +105,67 @@ describe('remove class', () => {
     eles.removeClass();
 
     expect($.html()).toBe('<div></div>');
+  });
+
+  it('concat statement 4', () => {
+    const code = '<div class="show{{cls}} valid"></div>';
+    const $ = load(code);
+    const eles = $('div.show');
+
+    eles.removeClass('show');
+
+    expect($.html()).toBe('<div class="show{{cls}} valid"></div>');
+  });
+});
+
+describe('has class', () => {
+  it('pure html 1', () => {
+    const code = '<div class="show"></div><div class="active"></div>';
+    const $ = load(code);
+    const eles = $('.active, .show');
+
+    const valid = eles.hasClass('show');
+
+    expect(valid).toBe(true);
+  });
+
+  it('pure html 2', () => {
+    const code = '<div class="show"></div><div class="active"></div>';
+    const $ = load(code);
+    const eles = $('.active, .show');
+
+    const valid = eles.hasClass('valid');
+
+    expect(valid).toBe(false);
+  });
+
+  it('concat statement 1', () => {
+    const code = '<div class="active valid show{{cls}}valid"></div>';
+    const $ = load(code);
+    const eles = $('.active');
+
+    const valid = eles.hasClass('show');
+
+    expect(valid).toBe(false);
+  });
+
+  it('concat statement 2', () => {
+    const code = '<div class="active show{{cls}} valid"></div>';
+    const $ = load(code);
+    const eles = $('.valid');
+
+    const valid = eles.hasClass('active');
+
+    expect(valid).toBe(true);
+  });
+
+  it('concat statement 3', () => {
+    const code = '<div class="{{cls}}show"></div>';
+    const $ = load(code);
+    const eles = $('div');
+
+    const valid = eles.hasClass('show');
+
+    expect(valid).toBe(false);
   });
 });

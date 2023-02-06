@@ -1,9 +1,5 @@
-import {
-  ConcatStatement,
-  TextNode,
-} from 'lehbs-parser/dist/types/lib/v1/nodes-v1';
-
-const spaceReg = /\s+/;
+import { ConcatStatement } from 'lehbs-parser/dist/types/lib/v1/nodes-v1';
+import { rspace } from './reg';
 
 export function charsOfConcatTextNode(node: ConcatStatement) {
   const ret: Array<{
@@ -20,7 +16,7 @@ export function charsOfConcatTextNode(node: ConcatStatement) {
       const lastPart = index === length - 1;
       const leadingSpace = /^\s/.test(part.chars);
       const tailingSpace = /\s$/.test(part.chars);
-      const chars = part.chars.split(spaceReg);
+      const chars = part.chars.split(rspace);
       const leadingChar = !leadingSpace && !firstPart ? chars.splice(0, 1) : [];
       const tailingChar =
         !tailingSpace && !lastPart ? chars.splice(chars.length - 1, 1) : [];
