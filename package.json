@@ -9,8 +9,19 @@
     "test": "jest",
     "build": "tsc"
   },
-  "author": "",
+  "author": "jiangzhijian",
   "license": "MIT",
+  "keywords": [
+    "handlebars",
+    "jquery",
+    "selector",
+    "parser",
+    "html"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jiangzj1008/hbsquery"
+  },
   "devDependencies": {
     "@types/jest": "^29.4.0",
     "@types/node": "^18.11.18",
