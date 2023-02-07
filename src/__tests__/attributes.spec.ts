@@ -8,7 +8,7 @@ describe('add class', () => {
 
     eles.addClass('active show');
 
-    expect($.html()).toBe(
+    expect($.template()).toBe(
       '<div class="show active"></div><div class="active show"></div>',
     );
   });
@@ -20,7 +20,7 @@ describe('add class', () => {
 
     eles.addClass('newClass');
 
-    expect($.html()).toBe(
+    expect($.template()).toBe(
       '<div class="show active newClass"></div><div class="show"></div>',
     );
   });
@@ -32,7 +32,7 @@ describe('add class', () => {
 
     eles.addClass('newClass');
 
-    expect($.html()).toBe('<div class="show{{cls}}"></div>');
+    expect($.template()).toBe('<div class="show{{cls}}"></div>');
   });
 
   it('concat statement 2', () => {
@@ -42,7 +42,7 @@ describe('add class', () => {
 
     eles.addClass('newClass');
 
-    expect($.html()).toBe('<div class="{{cls}}show"></div>');
+    expect($.template()).toBe('<div class="{{cls}}show"></div>');
   });
 
   it('concat statement 3', () => {
@@ -52,7 +52,7 @@ describe('add class', () => {
 
     eles.addClass('show newClass');
 
-    expect($.html()).toBe('<div class="show {{cls}}show newClass"></div>');
+    expect($.template()).toBe('<div class="show {{cls}}show newClass"></div>');
   });
 
   it('empty class', () => {
@@ -62,7 +62,7 @@ describe('add class', () => {
 
     eles.addClass('newClass');
 
-    expect($.html()).toBe('<div class="newClass"></div>');
+    expect($.template()).toBe('<div class="newClass"></div>');
   });
 });
 
@@ -74,7 +74,7 @@ describe('remove class', () => {
 
     eles.removeClass('show active');
 
-    expect($.html()).toBe('<div class></div><div class></div>');
+    expect($.template()).toBe('<div class></div><div class></div>');
   });
 
   it('concat statement 1', () => {
@@ -84,7 +84,7 @@ describe('remove class', () => {
 
     eles.removeClass('valid');
 
-    expect($.html()).toBe('<div class="active show{{cls}}valid"></div>');
+    expect($.template()).toBe('<div class="active show{{cls}}valid"></div>');
   });
 
   it('concat statement 2', () => {
@@ -94,7 +94,7 @@ describe('remove class', () => {
 
     eles.removeClass('active valid');
 
-    expect($.html()).toBe('<div class="show{{cls}}"></div>');
+    expect($.template()).toBe('<div class="show{{cls}}"></div>');
   });
 
   it('concat statement 3', () => {
@@ -104,7 +104,7 @@ describe('remove class', () => {
 
     eles.removeClass();
 
-    expect($.html()).toBe('<div></div>');
+    expect($.template()).toBe('<div></div>');
   });
 
   it('concat statement 4', () => {
@@ -114,7 +114,7 @@ describe('remove class', () => {
 
     eles.removeClass('show');
 
-    expect($.html()).toBe('<div class="show{{cls}} valid"></div>');
+    expect($.template()).toBe('<div class="show{{cls}} valid"></div>');
   });
 });
 

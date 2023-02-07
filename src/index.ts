@@ -28,7 +28,7 @@ export function load(code: string) {
     return eles;
   }
 
-  fn.html = () => print(ast);
+  fn.template = () => print(ast);
 
   return fn;
 }

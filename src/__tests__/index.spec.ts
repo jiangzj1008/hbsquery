@@ -5,6 +5,6 @@ describe('basic', () => {
     const code = '<div></div>';
     const $ = load(code);
 
-    expect($.html()).toBe(code);
+    expect($.template()).toBe(code);
   });
 });
