@@ -202,4 +202,14 @@ describe('attr', () => {
       '<div id="id" data-type="button" class="show {{cls}}"></div>',
     );
   });
+
+  it('concat statement 3', () => {
+    const code = '<div class="show {{cls}}"></div>';
+    const $ = load(code);
+    const eles = $('.show');
+
+    eles.attr('class', null);
+
+    expect($.template()).toBe('<div></div>');
+  });
 });
