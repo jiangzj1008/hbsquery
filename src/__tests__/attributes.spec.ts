@@ -169,3 +169,37 @@ describe('has class', () => {
     expect(valid).toBe(false);
   });
 });
+
+describe('attr', () => {
+  it('pure html 1', () => {
+    const code = '<div class="show"></div><div class="active"></div>';
+    const $ = load(code);
+    const eles = $('.active, .show');
+
+    eles.attr('class', 'cls');
+
+    expect($.template()).toBe('<div class="cls"></div><div class="cls"></div>');
+  });
+
+  it('concat statement 1', () => {
+    const code = '<div class="show {{cls}}"></div>';
+    const $ = load(code);
+    const eles = $('.show');
+
+    eles.attr('id', 'id');
+
+    expect($.template()).toBe('<div id="id" class="show {{cls}}"></div>');
+  });
+
+  it('concat statement 2', () => {
+    const code = '<div class="show {{cls}}"></div>';
+    const $ = load(code);
+    const eles = $('.show');
+
+    eles.attr({ id: 'id', 'data-type': 'button' });
+
+    expect($.template()).toBe(
+      '<div id="id" data-type="button" class="show {{cls}}"></div>',
+    );
+  });
+});

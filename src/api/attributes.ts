@@ -138,3 +138,44 @@ export function hasClass<R extends Array<ElementNode>>(this: R, value: string) {
 
   return valid;
 }
+
+function setAttr(ele: ElementNode, name: string, value: string | null) {
+  if (value) {
+    const attrNode = ele.attributes.find((attr) => attr.name === name);
+    if (!attrNode) {
+      const attr = builders.attr(name, builders.text(value));
+      ele.attributes.push(attr);
+    } else {
+      attrNode.value = builders.text(value);
+    }
+  } else {
+    ele.attributes = ele.attributes.filter((attr) => attr.name !== name);
+  }
+}
+
+export function attr<R extends Array<ElementNode>>(
+  this: R,
+  name?: string | Record<string, string | null>,
+  value?: string | null,
+) {
+  if (!name) {
+    // todo
+    // 考虑把 hbs 节点返回
+    return this;
+  }
+
+  if (typeof name === 'object' || value !== undefined) {
+    this.forEach((ele) => {
+      if (typeof name === 'object') {
+        for (const objName of Object.keys(name)) {
+          const objValue = name[objName];
+          setAttr(ele, objName, objValue);
+        }
+      } else if (value !== undefined) {
+        setAttr(ele, name, value);
+      }
+    });
+  }
+
+  return this;
+}
