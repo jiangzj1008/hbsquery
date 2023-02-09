@@ -11,6 +11,9 @@
   },
   "author": "jiangzhijian",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "handlebars",
     "jquery",
