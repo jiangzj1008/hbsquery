@@ -1,6 +1,6 @@
 <h1 align="center">hbsquery</h1>
 
-<h5 align="center">Transform html attributes in handlebars</h5>
+<h5 align="center">Manipulate html attributes in handlebars</h5>
 
 ## Installation
 
