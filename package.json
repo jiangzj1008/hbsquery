@@ -1,7 +1,7 @@
 {
   "name": "hbsquery",
   "version": "0.0.2",
-  "description": "Transform html attributes in handlebars",
+  "description": "Manipulate html attributes in handlebars",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

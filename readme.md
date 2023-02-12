@@ -1,17 +1,17 @@
 <h1 align="center">hbsquery</h1>
 
-<h5 align="center">修改 handlebars 中的 html 节点</h5>
+<h5 align="center">Manipulate html attributes in handlebars</h5>
 
 ## Installation
 
-`npm install cheerio`
+`npm install hbsquery`
 
 ## API
 
 ### load
 
 ```js
-import { load } from 'cheerio';
+import { load } from 'hbsquery';
 
 const $ = load('{{#if valid}}<div>bar</div>{{/if}}');
 
@@ -22,7 +22,7 @@ $.template();
 ### addClass
 
 ```js
-import { load } from 'cheerio';
+import { load } from 'hbsquery';
 
 const code = '<div></div>';
 const $ = load(code);
@@ -35,7 +35,7 @@ $.template();
 ### removeClass
 
 ```js
-import { load } from 'cheerio';
+import { load } from 'hbsquery';
 
 const code = '<div class="show {{layout}}-show"></div>';
 const $ = load(code);
@@ -48,7 +48,7 @@ $.template();
 ### hasClass
 
 ```js
-import { load } from 'cheerio';
+import { load } from 'hbsquery';
 
 const code = '<div class="show {{layout}}-show"></div>';
 const $ = load(code);
@@ -60,7 +60,7 @@ $('div').hasClass('show');
 ### attr
 
 ```js
-import { load } from 'cheerio';
+import { load } from 'hbsquery';
 
 const code = '<div class="show {{cls}}"></div>';
 const $ = load(code);
