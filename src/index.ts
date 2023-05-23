@@ -8,10 +8,17 @@ import { isElementSelected } from './utils';
 export function load(code: string) {
   const ast = parse(code);
 
-  function fn(selector: string) {
-    const sels = cssWhat.parse(selector);
+  function fn(selector: string | ElementNode) {
+    const isElement = typeof selector !== 'string';
 
     let eles = new Hbsquery<ElementNode>([]);
+
+    if (isElement) {
+      eles.push(selector);
+      return eles;
+    }
+
+    const sels = cssWhat.parse(selector);
 
     traverse(ast, {
       ElementNode: {
