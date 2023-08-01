@@ -1,5 +1,5 @@
-import { ElementNode } from 'lehbs-parser/dist/types/lib/v1/nodes-v1';
-import { builders } from 'lehbs-parser';
+import { ElementNode, AttrNode } from 'lehbs-parser/dist/types/lib/v1/nodes-v1';
+import { builders, print } from 'lehbs-parser';
 import { charsOfConcatTextNode } from '../utils';
 
 import { reg } from '../utils';
@@ -153,6 +153,35 @@ function setAttr(ele: ElementNode, name: string, value: string | null) {
   }
 }
 
+class AttributeValue {
+  value: AttrNode["value"]
+  
+  constructor(attr: AttrNode) {
+    this.value = attr.value
+  }
+
+  toString() {
+    const value = this.value
+
+    if (value.type === 'ConcatStatement') {
+      const vals = value.parts.map(val => print(val))
+      return vals.join('')
+    }
+
+    return print(value)
+  }
+}
+
+function getAttr(ele: ElementNode, name: string) {
+  const attribute = ele.attributes.find((attr) => attr.name === name)
+  
+  if (!attribute) {
+    return
+  }
+
+  return new AttributeValue(attribute)
+}
+
 export function attr<R extends Array<ElementNode>>(
   this: R,
   name?: string | Record<string, string | null>,
@@ -175,6 +204,10 @@ export function attr<R extends Array<ElementNode>>(
         setAttr(ele, name, value);
       }
     });
+  }
+
+  if (typeof name === 'string' && value === undefined) {
+    return getAttr(this[0], name)
   }
 
   return this;

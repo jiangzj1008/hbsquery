@@ -65,6 +65,9 @@ import { load } from 'hbsquery';
 const code = '<div class="show {{cls}}"></div>';
 const $ = load(code);
 
+$('.show').attr('class');
+//=> 'show {{cls}}'
+
 $('.show').attr('id', 'id');
 $.template();
 //=> <div id="id" class="show {{cls}}"></div>
@@ -79,4 +82,26 @@ $('.show').attr({
 });
 $.template();
 //=> <div id="id" data-type="button" class="show {{cls}}"></div>
+```
+
+### for loop
+
+```js
+import { load } from 'hbsquery';
+
+const code = '<div class="first"></div><div></div>';
+const $ = load(code);
+const $divs = $('div');
+
+$divs.forEach((el) => {
+  const $el = $(el);
+  if ($el.hasClass('first')) {
+    $el.attr({ 'data-type': 'first' });
+  } else {
+    $el.attr({ 'data-type': 'normal' });
+  }
+});
+
+$.template();
+//=> <div data-type="first" class="first"></div><div data-type="normal"></div>
 ```
