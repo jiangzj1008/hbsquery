@@ -154,14 +154,18 @@ function setAttr(ele: ElementNode, name: string, value: string | null) {
 }
 
 class AttributeValue {
-  value: AttrNode["value"]
+  value: AttrNode["value"] | ''
   
-  constructor(attr: AttrNode) {
-    this.value = attr.value
+  constructor(attr?: AttrNode) {
+    this.value = attr?.value || ''
   }
 
   toString() {
     const value = this.value
+
+    if (!value) {
+      return ''
+    }
 
     if (value.type === 'ConcatStatement') {
       const vals = value.parts.map(val => print(val))
@@ -174,10 +178,6 @@ class AttributeValue {
 
 function getAttr(ele: ElementNode, name: string) {
   const attribute = ele.attributes.find((attr) => attr.name === name)
-  
-  if (!attribute) {
-    return
-  }
 
   return new AttributeValue(attribute)
 }
