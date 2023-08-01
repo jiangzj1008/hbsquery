@@ -222,7 +222,7 @@ describe('get attr', () => {
 
     const val = eles.attr('class');
 
-    expect(val?.toString()).toBe('show');
+    expect(val.toString()).toBe('show');
   });
 
   it('MustacheStatement', () => {
@@ -232,7 +232,7 @@ describe('get attr', () => {
 
     const val = eles.attr('class');
 
-    expect(val?.toString()).toBe('{{cls}}');
+    expect(val.toString()).toBe('{{cls}}');
   });
 
   it('ConcatStatement', () => {
@@ -242,7 +242,7 @@ describe('get attr', () => {
 
     const val = eles.attr('class');
 
-    expect(val?.toString()).toBe('container {{#if valid}}cls{{/if}} layout');
+    expect(val.toString()).toBe('container {{#if valid}}cls{{/if}} layout');
   });
 
   it('for loop', () => {
@@ -255,9 +255,9 @@ describe('get attr', () => {
       const val = $el.attr('class');
 
       if ($el.hasClass('first')) {
-        expect(val?.toString()).toBe('first');
+        expect(val.toString()).toBe('first');
       } else {
-        expect(val?.toString()).toBe('{{cls}}');
+        expect(val.toString()).toBe('{{cls}}');
       }
     });
   });

@@ -65,7 +65,7 @@ import { load } from 'hbsquery';
 const code = '<div class="show {{cls}}"></div>';
 const $ = load(code);
 
-$('.show').attr('class');
+$('.show').attr('class').toString();
 //=> 'show {{cls}}'
 
 $('.show').attr('id', 'id');
