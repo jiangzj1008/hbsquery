@@ -170,7 +170,7 @@ describe('has class', () => {
   });
 });
 
-describe('attr', () => {
+describe('set attr', () => {
   it('pure html 1', () => {
     const code = '<div class="show"></div><div class="active"></div>';
     const $ = load(code);
@@ -211,5 +211,54 @@ describe('attr', () => {
     eles.attr('class', null);
 
     expect($.template()).toBe('<div></div>');
+  });
+});
+
+describe('get attr', () => {
+  it('TextNode', () => {
+    const code = '<div class="show"></div><div class="active"></div>';
+    const $ = load(code);
+    const eles = $('div');
+
+    const val = eles.attr('class');
+
+    expect(val?.toString()).toBe('show');
+  });
+
+  it('MustacheStatement', () => {
+    const code = '<div class={{cls}}></div>';
+    const $ = load(code);
+    const eles = $('div');
+
+    const val = eles.attr('class');
+
+    expect(val?.toString()).toBe('{{cls}}');
+  });
+
+  it('ConcatStatement', () => {
+    const code = '<div class="container {{#if valid}}cls{{/if}} layout"></div>';
+    const $ = load(code);
+    const eles = $('.container');
+
+    const val = eles.attr('class');
+
+    expect(val?.toString()).toBe('container {{#if valid}}cls{{/if}} layout');
+  });
+
+  it('for loop', () => {
+    const code = '<div class="first"></div><div class="{{cls}}"></div>';
+    const $ = load(code);
+    const $divs = $('div');
+
+    $divs.forEach((el) => {
+      const $el = $(el);
+      const val = $el.attr('class');
+
+      if ($el.hasClass('first')) {
+        expect(val?.toString()).toBe('first');
+      } else {
+        expect(val?.toString()).toBe('{{cls}}');
+      }
+    });
   });
 });
